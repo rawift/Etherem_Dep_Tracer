@@ -41,7 +41,7 @@ Make sure you have the following installed on your machine:
 
 4.  Run the Node.js Application:
     ```bash
-    Run the Node.js Application:
+    npm start
 
   ### Option 2: Using Docker
   You can also run the application using Docker, which will automatically install dependencies and run all services (Node.js app, Prometheus, Grafana, and Loki).
