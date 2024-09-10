@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposits</title>
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* White text color */
+            font-family: Arial, sans-serif;
+            font-size: 14px; /* Smaller font size */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px; /* Smaller font size for heading */
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px; /* Reduce padding for smaller font */
+            border: 1px solid #ffffff; /* White border color */
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f1f1f; /* Slightly lighter dark background for table header */
+        }
+
+        tr:nth-child(even) {
+            background-color: #333333; /* Darker background for even rows */
+        }
+
+        .deposit-list {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Deposit Records</h1>
+
+    <div class="deposit-list">
+        <!-- Table where deposits will be dynamically inserted -->
+        <table id="deposits-table">
+            <thead>
+                <tr>
+                    <th>Block Number</th>
+                    <th>Timestamp</th>
+                    <th>Fee</th>
+                    <th>Hash</th>
+                    <th>Pubkey</th>
+                </tr>
+            </thead>
+            <tbody id="deposits-body">
+                <!-- Data will be populated via Ajax -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch the deposit data using Ajax and populate the table
+        fetch('/api/deposits')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('deposits-body');
+                data.forEach(deposit => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${deposit.blockNumber}</td>
+                        <td>${new Date(deposit.blockTimestamp * 1000).toLocaleString()}</td>
+                        <td>${deposit.fee}</td>
+                        <td>${deposit.hash}</td>
+                        <td>${deposit.pubkey}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching deposits:', error));
+    </script>
+</body>
+</html>
